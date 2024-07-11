@@ -15,7 +15,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "hydrat/filament-table-layout-toggle": "^1.2",
         "jeffgreco13/filament-breezy": "^2.3",
-        "kreait/laravel-firebase": "*",
+        "kreait/laravel-firebase": "^5.9",
         "lara-zeus/accordion": "^1.1",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
