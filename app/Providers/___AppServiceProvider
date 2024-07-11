@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Providers;
+
+use Filament\Resources\Resource;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        //Resource::scopeToTenant(false);
+
+        // Custom URL generation logic for password reset links
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return url()->signedRoute('filament.administrator.auth.password-reset.reset', ['email' => $user->getEmailForPasswordReset(), 'token' => $token]);
+        });
+    }
+}

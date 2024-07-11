@@ -1,0 +1,159 @@
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Facades\Filament;
+use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
+//use Filament\Models\Contracts\HasDefaultTenant;
+use Filament\Models\Contracts\HasTenants;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
+use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
+
+class User extends Authenticatable implements HasTenants
+{
+    use HasApiTokens, HasFactory, Notifiable, HasRoles,
+    AuthenticationLoggable, TwoFactorAuthenticatable;
+
+	protected $guarded = ['id'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    /*protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];*/
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+
+    protected $adminGroup = [1];
+    protected $studentGroup = [6];
+    protected $tutorGroup = [7];
+
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function getIsAdminAttribute() {
+        return in_array($this->role->id, $this->adminGroup) ? true : false;
+    }
+
+    public function getIsStudentAttribute() {
+        return in_array($this->role->id, $this->studentGroup) ? true : false;
+    }
+    public function getIsTutorAttribute() {
+        return in_array($this->role->id, $this->tutorGroup) ? true : false;
+    }
+
+	public function user_type()
+    {
+        return $this->belongsTo(UserType::class, 'user_type_id');
+    }
+
+	public function qualification()
+    {
+        return $this->belongsTo(Qualification::class, 'qualification_id');
+    }
+
+	public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
+
+	public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+	public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'designation_id');
+    }
+	public function domain()
+    {
+        return $this->belongsTo(Domain::class, 'domain_id');
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->teams->contains($tenant) && $this->is_active;
+    }
+
+    public function canAccessPanel(Panel $panel) : bool
+    {
+        return $this->is_active == 1 ? true : false;
+    }
+
+    public function batches()
+    {
+        return $this->belongsToMany(
+            Batch::class,
+            'batch_user',
+            'batch_id',
+            'user_id'
+        );
+    }
+
+    /***
+     * Tenants
+     */
+    public function getTenants(Panel $panel): Collection
+    {
+        return $this->teams;
+    }
+
+    public function teams(): BelongsToMany
+    {
+        return $this->belongsToMany(Team::class);
+    }
+
+    public function team()
+    {
+        return $this->teams()->where('team_id', Filament::getTenant()->id);
+    }
+
+    //HasDefaultTenant
+    // public function getDefaultTenant(Panel $panel): ?Model
+    // {
+    //     return $this->latestTeam;
+    // }
+
+    // public function latestTeam(): BelongsTo
+    // {
+    //     return $this->belongsTo(Team::class, 'latest_team_id');
+    // }
+}

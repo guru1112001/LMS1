@@ -1,0 +1,123 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+
+.fi-sidebar-nav {
+    /*@apply bg-gray-50 dark:bg-gray-950;*/
+    background-color: #ffffff;
+}
+.fi-sidebar-item-active a,.fi-sidebar-item-active a:hover {
+    @apply color-white;
+}
+
+.fi-sidebar-item-active a span,
+.fi-sidebar-item-active a svg,
+.fi-sidebar-item-active a svg #icon path{
+    @apply color-white;
+}
+.color-white{
+    fill: #ffffff !important;
+    color: #ffffff !important;
+    background-color:transparent !important;
+}
+.fi-sidebar-item-active a svg path{
+    fill: transparent;
+}
+.fi-sidebar-item-active{
+    background: var(--orange-gradient, linear-gradient(135.51deg, rgba(235, 103, 7, 1) 0%, rgba(228, 43, 18, 1) 100%));
+    border-radius: 10px;
+    /*padding: 0px 16px 0px 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;*/
+    /*width: 240px;*/
+    /*height: 50px;
+    position: relative;*/
+}
+.button{
+    background: #ff5003;
+    border-radius: 100px;
+    padding: 8px 10px 8px 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+    flex-shrink: 0;
+    position: relative;
+}
+
+/*.fi-ta-table thead {*/
+/*    position: sticky !important;*/
+/*    top: 4rem;*/
+/*    z-index: 50;*/
+/*}*/
+/* opacity does not looks good in dark mode, so insert the corresponding bg color here */
+thead .dark\:bg-white\/5:is(.dark *), thead  .dark\:bg-white\/5{
+    background-color: rgba(255, 240, 234, 1)  !important;
+}
+thead .dark\:text-white:is(.dark *) {
+    color: rgba(69, 69, 69, 1) !important;
+}
+
+.fi-topbar nav{
+    /*box-shadow:none !important;
+    background: none;*/
+    width: 400px;
+    float: right;
+    border-radius: 15px;
+    margin: 10px 10px 0px 0px;
+}
+.ring-1 {
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1) !important;
+}
+.fi-btn{
+    background: var(--orange-gradient, linear-gradient(135.51deg, rgba(235, 103, 7, 1) 0%, rgba(228, 43, 18, 1) 100%));
+    color: #ffffff;
+}
+.fi-fo-radio .fi-btn{
+    background: #ffffff;
+    color: rgba(var(--gray-950), var(--tw-text-opacity));
+}
+input:checked+.\[input\:checked\+\&\]\:hover\:bg-custom-500{
+    background-color: rgba(var(--c-500),var(--tw-bg-opacity));
+    background: rgba(var(--c-500),var(--tw-bg-opacity));
+    color: #ffffff;
+}
+.fi-tabs{
+    background: rgb(250 250 250) !important;
+    box-shadow: none !important;
+}
+.fi-tabs-item {
+    background: none;
+    border: 1px solid rgb(234, 88, 12);
+}
+.fi-tabs-item span{
+    color: rgb(234, 88, 12);
+}
+.fi-tabs-item-active{
+    background: var(--orange-gradient, linear-gradient(135.51deg, rgba(235, 103, 7, 1) 0%, rgba(228, 43, 18, 1) 100%));
+}
+.fi-tabs-item-active span{
+    color: #ffffff !important;
+}
+.fi-sidebar-nav .fi-sidebar-nav-groups{
+    row-gap: 0.5rem;
+}
+.fi-sidebar-nav .fi-sidebar-nav-groups .fi-sidebar-group .fi-sidebar-group-items{
+    row-gap: 0;
+}
+.fi-sidebar-nav{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    row-gap:0.5rem;
+}
+.active{
+    background-color: #fff0ea!important;
+    border: 1px solid rgba(var(--primary-600), var(--tw-text-opacity));
+}
